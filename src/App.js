@@ -1,4 +1,6 @@
-import React from "react";
+import React,{useState} from "react";
+import Frase from './components/Frase'
+
 import styled from "@emotion/styled";
 
 const Boton = styled.button`
@@ -24,15 +26,25 @@ const Contenedor = styled.div`
   flex-direction: column;
 `;
 
-const consultarAPI = async() => {
-  const api = await fetch('http://breaking-bad-quotes.herokuapp.com/v1/quotes');
-  const frase = await api.json();
-  console.log(frase[0]);
-};
 
 function App() {
+  //state de frases
+
+  const [frase, guardarFrase] = useState({});
+
+
+  const consultarAPI = async() => {
+    const api = await fetch('http://breaking-bad-quotes.herokuapp.com/v1/quotes');
+    const frase = await api.json();
+    guardarFrase(frase[0]);
+  };
+
   return (
     <Contenedor>
+
+      <Frase 
+        frase={frase}
+      />
       <Boton onClick={consultarAPI}>Obtener Frase</Boton>
     </Contenedor>
   );
